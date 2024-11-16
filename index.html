@@ -11,7 +11,7 @@
             width: 400vw;
             height: 400vh;
             overflow: auto; /* Permite a rolagem */
-            background-image: url('C0DF3BC3-74F5-4709-A0AB-2B9D3AE04B59.jpeg');
+            background-image: url('URL_DA_SUA_IMAGEM');
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
@@ -24,43 +24,43 @@
         let scrollX = 0;
         let scrollY = 0;
         let direction = 'down';
+        let scrollSpeed = 1; // Velocidade de rolagem
 
         function autoScroll() {
             switch (direction) {
                 case 'down':
-                    window.scrollBy(0, 1);
-                    scrollY++;
+                    window.scrollBy(0, scrollSpeed);
+                    scrollY += scrollSpeed;
                     if (scrollY >= document.documentElement.scrollHeight - window.innerHeight) {
                         direction = 'right';
                     }
                     break;
                 case 'right':
-                    window.scrollBy(1, 0);
-                    scrollX++;
+                    window.scrollBy(scrollSpeed, 0);
+                    scrollX += scrollSpeed;
                     if (scrollX >= document.documentElement.scrollWidth - window.innerWidth) {
                         direction = 'up';
                     }
                     break;
                 case 'up':
-                    window.scrollBy(0, -1);
-                    scrollY--;
+                    window.scrollBy(0, -scrollSpeed);
+                    scrollY -= scrollSpeed;
                     if (scrollY <= 0) {
                         direction = 'left';
                     }
                     break;
                 case 'left':
-                    window.scrollBy(-1, 0);
-                    scrollX--;
+                    window.scrollBy(-scrollSpeed, 0);
+                    scrollX -= scrollSpeed;
                     if (scrollX <= 0) {
                         direction = 'down';
                     }
                     break;
             }
-            requestAnimationFrame(autoScroll);
         }
 
         window.onload = () => {
-            autoScroll();
+            setInterval(autoScroll, 10); // Intervalo de tempo para rolagem automática
         };
     </script>
 </body>
