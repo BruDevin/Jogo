@@ -15,7 +15,7 @@
         .full-screen {
             width: 400vw;
             height: 400vh;
-            background-image: url('C0DF3BC3-74F5-4709-A0AB-2B9D3AE04B59.jpeg');
+            background-image: url('URL_DA_SUA_IMAGEM');
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
@@ -28,18 +28,23 @@
     </div>
 
     <script>
+        let scrollAmount = 0;
+        let scrollSpeed = 1; // Ajuste este valor para controlar a velocidade
+
         function autoScroll() {
-            window.scrollBy(1, 1); // Ajuste os valores conforme necessário para controlar a velocidade
-            let scrolled = window.pageYOffset || document.documentElement.scrollTop;
-            if (scrolled < (document.documentElement.scrollHeight - window.innerHeight)) {
-                requestAnimationFrame(autoScroll);
+            window.scrollBy(0, scrollSpeed);
+            scrollAmount += scrollSpeed;
+            if (scrollAmount >= (document.documentElement.scrollHeight - window.innerHeight)) {
+                scrollAmount = 0;
+                window.scrollTo(0, 0);
             }
         }
 
         window.onload = () => {
-            autoScroll();
+            setInterval(autoScroll, 10); // Ajuste este valor para controlar a frequência da rolagem
         };
     </script>
 </body>
 </html>
+
 
