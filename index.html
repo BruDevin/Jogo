@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Página 400vw x 400vh</title>
+    <title>Página 400vw x 400vh com Scroll Automático</title>
     <style>
         body, html {
             margin: 0;
@@ -15,7 +15,7 @@
         .full-screen {
             width: 400vw;
             height: 400vh;
-            background-image: url('C0DF3BC3-74F5-4709-A0AB-2B9D3AE04B59.jpeg');
+            background-image: url('URL_DA_SUA_IMAGEM');
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
@@ -26,5 +26,20 @@
     <div class="full-screen">
         <!-- Conteúdo da página -->
     </div>
+
+    <script>
+        function autoScroll() {
+            window.scrollBy(1, 1); // Ajuste os valores conforme necessário para controlar a velocidade
+            let scrolled = window.pageYOffset || document.documentElement.scrollTop;
+            if (scrolled < (document.documentElement.scrollHeight - window.innerHeight)) {
+                requestAnimationFrame(autoScroll);
+            }
+        }
+
+        window.onload = () => {
+            autoScroll();
+        };
+    </script>
 </body>
 </html>
+
