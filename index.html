@@ -1,8 +1,7 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="viewport" content="width=device-width, initial-scale=1.0">
     <title>Página com Scroll Automático por Trajetória</title>
     <style>
         body, html {
@@ -11,7 +10,7 @@
             width: 400vw;
             height: 400vh;
             overflow: auto; /* Permite a rolagem */
-            background-image: url('C0DF3BC3-74F5-4709-A0AB-2B9D3AE04B59.jpeg');
+            background-image: url('URL_DA_SUA_IMAGEM');
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
@@ -36,23 +35,31 @@
         let ctx = canvas.getContext('2d');
         let drawing = false;
         let trajectory = [];
+        let touchDetected = false;
         let scrollInterval;
 
         canvas.width = document.documentElement.scrollWidth;
         canvas.height = document.documentElement.scrollHeight;
 
-        canvas.addEventListener('touchstart', startDrawing);
+        canvas.addEventListener('touchstart', detectTouchStart);
         canvas.addEventListener('touchmove', draw);
         canvas.addEventListener('touchend', stopDrawing);
 
-        function startDrawing(e) {
+        function detectTouchStart(e) {
             e.preventDefault();
-            drawing = true;
-            let pos = getTouchPosition(e);
-            ctx.beginPath();
-            ctx.moveTo(pos.x, pos.y);
-            trajectory.push({ x: pos.x, y: pos.y });
-            clearInterval(scrollInterval); // Para o scroll anterior
+            touchDetected = true;
+            startDrawing(e);
+        }
+
+        function startDrawing(e) {
+            if (!drawing && touchDetected) {
+                drawing = true;
+                let pos = getTouchPosition(e);
+                ctx.beginPath();
+                ctx.moveTo(pos.x, pos.y);
+                trajectory.push({ x: pos.x, y: pos.y });
+                clearInterval(scrollInterval); // Para o scroll anterior
+            }
         }
 
         function draw(e) {
@@ -67,6 +74,7 @@
         function stopDrawing(e) {
             e.preventDefault();
             drawing = false;
+            touchDetected = false;
             ctx.closePath();
             startScrolling();
         }
