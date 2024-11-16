@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Página 400vw x 400vh com Scroll Automático</title>
+    <title>Página com Scroll Automático em Loop</title>
     <style>
         body, html {
             margin: 0;
@@ -11,7 +11,7 @@
             width: 400vw;
             height: 400vh;
             overflow: auto; /* Permite a rolagem */
-            background-image: url('C0DF3BC3-74F5-4709-A0AB-2B9D3AE04B59.jpeg');
+            background-image: url('URL_DA_SUA_IMAGEM');
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
@@ -21,22 +21,47 @@
 <body>
     <!-- Conteúdo da página -->
     <script>
-        let scrollAmount = 0;
-        let scrollSpeed = 1; // Ajuste este valor para controlar a velocidade
+        let scrollX = 0;
+        let scrollY = 0;
+        let direction = 'down';
 
         function autoScroll() {
-            window.scrollBy(0, scrollSpeed);
-            scrollAmount += scrollSpeed;
-            if (scrollAmount >= (document.documentElement.scrollHeight - window.innerHeight)) {
-                scrollAmount = 0;
-                window.scrollTo(0, 0);
+            switch (direction) {
+                case 'down':
+                    window.scrollBy(0, 1);
+                    scrollY++;
+                    if (scrollY >= document.documentElement.scrollHeight - window.innerHeight) {
+                        direction = 'right';
+                    }
+                    break;
+                case 'right':
+                    window.scrollBy(1, 0);
+                    scrollX++;
+                    if (scrollX >= document.documentElement.scrollWidth - window.innerWidth) {
+                        direction = 'up';
+                    }
+                    break;
+                case 'up':
+                    window.scrollBy(0, -1);
+                    scrollY--;
+                    if (scrollY <= 0) {
+                        direction = 'left';
+                    }
+                    break;
+                case 'left':
+                    window.scrollBy(-1, 0);
+                    scrollX--;
+                    if (scrollX <= 0) {
+                        direction = 'down';
+                    }
+                    break;
             }
+            requestAnimationFrame(autoScroll);
         }
 
         window.onload = () => {
-            setInterval(autoScroll, 10); // Ajuste este valor para controlar a frequência da rolagem
+            autoScroll();
         };
     </script>
 </body>
 </html>
-
