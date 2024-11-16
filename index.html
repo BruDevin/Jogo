@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Página com Scroll Automático por Trajetória</title>
     <style>
         body, html {
@@ -10,7 +11,7 @@
             width: 400vw;
             height: 400vh;
             overflow: auto; /* Permite a rolagem */
-            background-image: url('C0DF3BC3-74F5-4709-A0AB-2B9D3AE04B59.jpeg');
+            background-image: url('URL_DA_SUA_IMAGEM');
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
@@ -35,37 +36,29 @@
         let ctx = canvas.getContext('2d');
         let drawing = false;
         let trajectory = [];
-        let touchDetected = false;
         let scrollInterval;
 
         canvas.width = document.documentElement.scrollWidth;
         canvas.height = document.documentElement.scrollHeight;
 
-        canvas.addEventListener('touchstart', detectTouchStart);
-        canvas.addEventListener('touchmove', draw);
-        canvas.addEventListener('touchend', stopDrawing);
-
-        function detectTouchStart(e) {
-            e.preventDefault();
-            touchDetected = true;
-            startDrawing(e);
-        }
+        canvas.addEventListener('mousedown', startDrawing);
+        canvas.addEventListener('mousemove', draw);
+        canvas.addEventListener('mouseup', stopDrawing);
 
         function startDrawing(e) {
-            if (!drawing && touchDetected) {
-                drawing = true;
-                let pos = getTouchPosition(e);
-                ctx.beginPath();
-                ctx.moveTo(pos.x, pos.y);
-                trajectory.push({ x: pos.x, y: pos.y });
-                clearInterval(scrollInterval); // Para o scroll anterior
-            }
+            e.preventDefault();
+            drawing = true;
+            let pos = getMousePosition(e);
+            ctx.beginPath();
+            ctx.moveTo(pos.x, pos.y);
+            trajectory.push({ x: pos.x, y: pos.y });
+            clearInterval(scrollInterval); // Para o scroll anterior
         }
 
         function draw(e) {
             if (!drawing) return;
             e.preventDefault();
-            let pos = getTouchPosition(e);
+            let pos = getMousePosition(e);
             ctx.lineTo(pos.x, pos.y);
             ctx.stroke();
             trajectory.push({ x: pos.x, y: pos.y });
@@ -74,14 +67,12 @@
         function stopDrawing(e) {
             e.preventDefault();
             drawing = false;
-            touchDetected = false;
             ctx.closePath();
             startScrolling();
         }
 
-        function getTouchPosition(e) {
-            let touch = e.touches[0];
-            return { x: touch.clientX, y: touch.clientY };
+        function getMousePosition(e) {
+            return { x: e.clientX, y: e.clientY };
         }
 
         function startScrolling() {
@@ -98,3 +89,4 @@
     </script>
 </body>
 </html>
+
