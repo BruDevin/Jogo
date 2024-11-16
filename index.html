@@ -11,7 +11,7 @@
             width: 400vw;
             height: 400vh;
             overflow: auto; /* Permite a rolagem */
-            background-image: url('C0DF3BC3-74F5-4709-A0AB-2B9D3AE04B59.jpeg');
+            background-image: url('URL_DA_SUA_IMAGEM');
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
@@ -40,17 +40,14 @@
         canvas.width = document.documentElement.scrollWidth;
         canvas.height = document.documentElement.scrollHeight;
 
-        canvas.addEventListener('mousedown', startDrawing);
-        canvas.addEventListener('mousemove', draw);
-        canvas.addEventListener('mouseup', stopDrawing);
-        canvas.addEventListener('touchstart', startDrawing, false);
-        canvas.addEventListener('touchmove', draw, false);
-        canvas.addEventListener('touchend', stopDrawing, false);
+        canvas.addEventListener('touchstart', startDrawing);
+        canvas.addEventListener('touchmove', draw);
+        canvas.addEventListener('touchend', stopDrawing);
 
         function startDrawing(e) {
             e.preventDefault();
             drawing = true;
-            let pos = getEventPosition(e);
+            let pos = getTouchPosition(e);
             ctx.beginPath();
             ctx.moveTo(pos.x, pos.y);
             trajectory.push({ x: pos.x, y: pos.y });
@@ -59,7 +56,7 @@
         function draw(e) {
             if (!drawing) return;
             e.preventDefault();
-            let pos = getEventPosition(e);
+            let pos = getTouchPosition(e);
             ctx.lineTo(pos.x, pos.y);
             ctx.stroke();
             trajectory.push({ x: pos.x, y: pos.y });
@@ -72,11 +69,9 @@
             followTrajectory();
         }
 
-        function getEventPosition(e) {
-            if (e.touches && e.touches.length > 0) {
-                return { x: e.touches[0].clientX, y: e.touches[0].clientY };
-            }
-            return { x: e.clientX, y: e.clientY };
+        function getTouchPosition(e) {
+            let touch = e.touches[0];
+            return { x: touch.clientX, y: touch.clientY };
         }
 
         function followTrajectory() {
@@ -93,5 +88,3 @@
     </script>
 </body>
 </html>
-
-
